@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>点击按钮</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#1E40AF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .btn-pop {
+                transition: transform 0.1s ease;
+            }
+            .btn-pop:active {
+                transform: scale(0.95);
+            }
+            .text-shadow {
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-slate-100 to-slate-200 min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="max-w-3xl w-full bg-white rounded-2xl shadow-xl p-8 transform transition-all duration-500 hover:shadow-2xl">
+        <header class="text-center mb-12">
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-bold text-slate-800 mb-4">按钮交互体验</h1>
+            <p class="text-slate-600 text-lg">点击下面的按钮，探索隐藏的信息</p>
+        </header>
+        
+        <main class="flex flex-col items-center justify-center py-8">
+            <div id="buttonContainer" class="mb-10">
+                <button id="mysteryButton" class="bg-primary hover:bg-secondary text-white font-bold py-4 px-12 rounded-full text-xl shadow-lg transform transition-all duration-300 hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary/50 btn-pop flex items-center">
+                    <span>你是谁？</span>
+                    <i class="fa fa-hand-pointer-o ml-2"></i>
+                </button>
+            </div>
+            
+            <div id="messageContainer" class="hidden text-center">
+                <div id="revealMessage" class="text-[clamp(1.5rem,4vw,2.5rem)] font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary mb-4 opacity-0 transform scale-90 transition-all duration-700 ease-out text-shadow">
+                    你是二波一
+                </div>
+                <p class="text-slate-500 mt-4 opacity-0 transition-opacity duration-500 delay-300" id="subMessage">这是一个隐藏的信息</p>
+            </div>
+        </main>
+        
+        <footer class="mt-12 text-center text-slate-400 text-sm">
+            <p>点击按钮体验 · 探索交互的乐趣</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mysteryButton = document.getElementById('mysteryButton');
+            const messageContainer = document.getElementById('messageContainer');
+            const revealMessage = document.getElementById('revealMessage');
+            const subMessage = document.getElementById('subMessage');
+            
+            mysteryButton.addEventListener('click', function() {
+                // 按钮动画
+                mysteryButton.classList.add('scale-95', 'opacity-70');
+                setTimeout(() => {
+                    mysteryButton.classList.remove('scale-95', 'opacity-70');
+                    mysteryButton.disabled = true;
+                    mysteryButton.innerHTML = '<i class="fa fa-check-circle mr-2"></i> 已揭晓';
+                    mysteryButton.classList.remove('bg-primary', 'hover:bg-secondary');
+                    mysteryButton.classList.add('bg-green-500', 'hover:bg-green-600');
+                }, 200);
+                
+                // 显示消息
+                messageContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    revealMessage.classList.remove('opacity-0', 'scale-90');
+                    revealMessage.classList.add('opacity-100', 'scale-100');
+                    
+                    setTimeout(() => {
+                        subMessage.classList.remove('opacity-0');
+                        subMessage.classList.add('opacity-100');
+                    }, 500);
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
+    
